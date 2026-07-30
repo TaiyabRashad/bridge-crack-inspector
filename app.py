@@ -117,12 +117,12 @@ def draw_results(image_path, confirmed, uncertain):
 # ── UI ──────────────────────────────────────────────
 st.set_page_config(
     page_title="Bridge Crack Inspector",
-    page_icon="🏗️",
+    page_icon="😎",
     layout="wide"
 )
 
 # Header
-st.title("🏗️ Bridge Crack Detection System")
+st.title("😎 Bridge Crack Detection System")
 
 col_a, col_b = st.columns([2, 1])
 with col_a:
