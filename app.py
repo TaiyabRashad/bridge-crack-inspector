@@ -145,7 +145,7 @@ with col1:
         "Upload a bridge or concrete inspection photo",
         type=["jpg", "jpeg", "png"]
     )
-    location = st.text_input("Location / Structure ID", "Bridge Deck — Span 1")
+    location = st.text_input("Location / Structure ID", "")
     conf_threshold = st.slider("Confidence Threshold", 0.1, 0.9, 0.35, 0.05)
     run_btn = st.button("🔍  Run Inspection", use_container_width=True)
     
