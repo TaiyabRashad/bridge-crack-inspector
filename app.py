@@ -134,8 +134,6 @@ with col_title:
     with col_a:
         st.markdown("**Taiyab Rashad** | Director | Business: 100928272629929")
         st.markdown("Copyright © [2026] [Taiyab Rashad]. All rights reserved.")
-        st.markdown("**Version 1.0** | [View Code on GitHub](https://github.com/TaiyabRashad/bridge-crack-inspector)")
-        st.markdown("*Dual Model YOLOv11 Ensemble | DMRB CS 450*")
 
 st.divider()
 col1, col2 = st.columns([1, 2])
