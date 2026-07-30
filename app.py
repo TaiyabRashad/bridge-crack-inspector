@@ -186,7 +186,7 @@ with col2:
         fig = draw_results(img_path, confirmed, uncertain)
         st.pyplot(fig)
 
-        st.caption(f" {datetime.now().strftime('%d/%m/%Y %H:%M')} )
+        st.caption({datetime.now().strftime('%d/%m/%Y %H:%M')} )
 
     elif not uploaded:
         st.info("Upload an image on the left to begin inspection")
