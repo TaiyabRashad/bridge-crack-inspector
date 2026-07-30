@@ -23,14 +23,14 @@ def load_models():
     if not os.path.exists("models/v2.pt"):
         with st.spinner("Loading Model V2..."):
             gdown.download(
-                "https://drive.google.com/uc?id=YOUR_V2_FILE_ID",
+                "https://drive.google.com/uc?id=1UwS3AcyrdMWVPBHoRfnPnvb15IU5XZD_",,
                 "models/v2.pt", quiet=False
             )
     
     if not os.path.exists("models/v3.pt"):
         with st.spinner("Loading Model V3..."):
             gdown.download(
-                "https://drive.google.com/uc?id=YOUR_V3_FILE_ID",
+                "https://drive.google.com/uc?id=14zMD7HCZuRnMEXHRQ6WVXqqva0QkNhDu",
                 "models/v3.pt", quiet=False
             )
     
