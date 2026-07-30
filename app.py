@@ -10,7 +10,7 @@ import os
 from PIL import Image
 
 st.set_page_config(
-    page_title="Bridge Crack Inspector",
+    page_title="concrete Crack Inspector",
     page_icon="",
     layout="wide"
 )
@@ -129,7 +129,7 @@ with col_logo:
     st.image("https://raw.githubusercontent.com/TaiyabRashad/bridge-crack-inspector/main/4dbde425-0407-4c72-9858-a4207df9e853.jpg", width=100)
 
 with col_title:
-    st.title("Bridge Crack Detection System")
+    st.title("Concrete Crack Detection System")
     col_a, col_b = st.columns([2, 1])
     with col_a:
         st.markdown("**Taiyab Rashad** | Director | Business: 100928272629929")
