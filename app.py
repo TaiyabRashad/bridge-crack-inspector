@@ -135,6 +135,7 @@ with col_title:
         st.markdown("**Taiyab Rashad** | Director | Business: 100928272629929")
         st.markdown("Copyright © [2026] [Taiyab Rashad]. All rights reserved.")
 
+        st.markdown("future V1.1 model will be trained to detect material, identifyy cracking in blury, windy, or dark conditions as befits the nature of the purposed idea.")
 st.divider()
 col1, col2 = st.columns([1, 2])
 
