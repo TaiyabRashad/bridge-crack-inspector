@@ -116,7 +116,7 @@ def draw_results(image_path, confirmed, uncertain):
 
 # ── UI ──────────────────────────────────────────────
 st.set_page_config(
-    page_title="Bridge Crack Inspector",
+    page_title=" Concrete Crack Inspector",
     page_icon="😎",
     layout="wide"
 )
@@ -147,7 +147,7 @@ with col1:
     run_btn = st.button("🔍  Run Inspection", use_container_width=True)
     
     st.divider()
-    st.caption("⚠️ For research and academic use only. All inspections must be verified by a qualified structural engineer per DMRB CS 450.")
+    st.caption("For research and academic use only. All inspections must be verified by a qualified structural engineer per DMRB CS 450.")
 
 with col2:
     if uploaded and run_btn:
