@@ -126,7 +126,7 @@ st.set_page_config(
 col_logo, col_title = st.columns([1, 5])
 
 with col_logo:
-    st.image("https://raw.githubusercontent.com/TaiyabRashad/bridge-crack-inspector/main/47373aad-944f-44c8-82d8-290b7e0c6bac.jpg", width=100)
+    st.image("https://raw.githubusercontent.com/TaiyabRashad/bridge-crack-inspector/main/4dbde425-0407-4c72-9858-a4207df9e853.jpg", width=100)
 
 with col_title:
     st.title("Bridge Crack Detection System")
