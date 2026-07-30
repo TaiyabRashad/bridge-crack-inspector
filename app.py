@@ -127,7 +127,7 @@ st.title("😎 Bridge Crack Detection System")
 col_a, col_b = st.columns([2, 1])
 with col_a:
     st.markdown("**Taiyab Rashad** | Student ID: 100928272629929")
-    st.markdown("University of Strathclyde | Civil Engineering")
+    st.markdown("Copyright © [2026] [Taiyab Rashad]. All rights reserved.All content, design, and underlying source code on this website are protected under international copyright treaties, including the Berne Convention. Any unauthorized reproduction, distribution, or modification of this intellectual property is strictly prohibited and subject to legal action worldwide.")
 with col_b:
     st.markdown("**Version 1.0** | [View Code on GitHub](https://github.com/TaiyabRashad/bridge-crack-inspector)")
     st.markdown("*Dual Model YOLOv11 Ensemble | DMRB CS 450*")
