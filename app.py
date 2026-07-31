@@ -274,7 +274,7 @@ function updateCount() {
     document.getElementById('user-count').textContent = count;
 }
 updateCount();
-setInterval(updateCount, 3000);
+setInterval(updateCount, 20000);
 </script>
 """, height=40)
 
