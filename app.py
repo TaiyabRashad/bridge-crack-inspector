@@ -7,9 +7,7 @@ import matplotlib.patches as patches
 from datetime import datetime
 from huggingface_hub import hf_hub_download
 import os
-from PIL import Image
 
-# ── Page config ─────────────────────────────────────
 st.set_page_config(
     page_title="Bridge Crack Inspector",
     page_icon="🔍",
@@ -17,120 +15,180 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# ── Custom CSS — dark engineering theme ─────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 html, body, [class*="css"] {
     font-family: 'Inter', sans-serif;
-    background-color: #0a0e13;
-    color: #c9d1d9;
+    background-color: #1c1f24;
+    color: #d4d8df;
 }
-.stApp { background-color: #0a0e13; }
+.stApp { background-color: #1c1f24; }
 #MainMenu, footer, header { visibility: hidden; }
-.block-container { padding: 0 2rem 2rem 2rem; max-width: 1400px; }
+.block-container { padding: 0 !important; max-width: 100% !important; }
 
-.top-banner {
-    background: linear-gradient(90deg, #0d1117 0%, #161b22 100%);
-    border-bottom: 1px solid #21262d;
-    padding: 1rem 2rem;
-    margin: -1rem -2rem 2rem -2rem;
+.gold-line {
+    height: 2px;
+    background: linear-gradient(90deg, #c5a03c, #8a6d1a, transparent);
+    width: 100%;
+}
+.topbar {
+    background: #16191e;
+    border-bottom: 1px solid #2a2d33;
+    padding: 0 1.75rem;
+    height: 54px;
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
 }
-.banner-title { font-size: 1.1rem; font-weight: 600; color: #e6edf3; letter-spacing: 0.02em; }
-.banner-subtitle { font-size: 0.75rem; color: #6e7681; font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
-.banner-badge {
-    margin-left: auto;
-    background: #1f2937; border: 1px solid #374151;
+.topbar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(197,160,60,0.02) 3px,rgba(197,160,60,0.02) 4px);
+    pointer-events: none;
+}
+.brand-name { font-size: 14px; font-weight: 600; color: #e8e4d9; letter-spacing: 0.02em; }
+.brand-sub  { font-size: 10px; color: #5a5e66; font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.status-pill {
+    display: flex; align-items: center; gap: 6px;
+    background: #1a1c20; border: 1px solid #2a2d33;
     border-radius: 4px; padding: 4px 10px;
-    font-size: 0.7rem; color: #9ca3af; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-family: 'JetBrains Mono', monospace; color: #c5a03c;
 }
 .status-dot {
-    width: 8px; height: 8px; background: #238636;
-    border-radius: 50%; display: inline-block;
-    margin-right: 6px; box-shadow: 0 0 6px #238636;
+    width: 6px; height: 6px; background: #c5a03c;
+    border-radius: 50%; display: inline-block; margin-right: 2px;
+    animation: pulse 2s infinite;
 }
-.section-label {
-    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em;
-    text-transform: uppercase; color: #6e7681;
-    margin-bottom: 0.6rem; font-family: 'JetBrains Mono', monospace;
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.ver-badge {
+    font-size: 10px; font-family: 'JetBrains Mono', monospace;
+    color: #3d4148; border: 1px solid #2a2d33;
+    border-radius: 3px; padding: 3px 8px;
 }
-.panel {
-    background: #0d1117; border: 1px solid #21262d;
-    border-radius: 6px; padding: 1.25rem; margin-bottom: 1rem;
+.sec-label {
+    font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #3d4148;
+    font-family: 'JetBrains Mono', monospace; margin-bottom: 6px; display: block;
 }
-.metric-row { display: flex; gap: 0.75rem; margin: 1rem 0; }
+.sys-panel {
+    background: #13151a; border: 1px solid #2a2d33;
+    border-radius: 5px; padding: 10px 12px;
+}
+.sys-row {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 10px; font-family: 'JetBrains Mono', monospace;
+    color: #5a5e66; padding: 3px 0; line-height: 1.4;
+}
+.dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+.dot-gold { background: #c5a03c; }
+.dot-blue { background: #6e8bb5; }
+.dot-dim  { background: #3d4148; }
+
+.alert {
+    border-radius: 5px; padding: 10px 14px;
+    margin: 0.75rem 0; font-size: 12px; font-weight: 500;
+    border-left: 3px solid; display: flex; align-items: center; gap: 8px;
+}
+.alert-critical { background: #1a1710; border-color: #c5a03c; color: #d4b060; }
+.alert-warning   { background: #1a1208; border-color: #b05050; color: #c07070; }
+.alert-monitor   { background: #111814; border-color: #5a7a5a; color: #7a9a7a; }
+.alert-uncertain { background: #13151a; border-color: #3d4148; color: #5a5e66; }
+.alert-clear     { background: #111814; border-color: #5a7a5a; color: #7a9a7a; }
+
+.metric-row { display: flex; gap: 8px; margin: 0.75rem 0; }
 .metric-card {
-    flex: 1; background: #0d1117; border: 1px solid #21262d;
-    border-radius: 6px; padding: 0.9rem 1rem; text-align: center;
+    flex: 1; background: #16191e; border: 1px solid #2a2d33;
+    border-radius: 6px; padding: 12px; text-align: center;
 }
-.metric-value {
-    font-size: 1.8rem; font-weight: 700;
+.metric-val {
+    font-size: 22px; font-weight: 600;
     font-family: 'JetBrains Mono', monospace;
     line-height: 1; margin-bottom: 4px;
 }
-.metric-label { font-size: 0.68rem; color: #6e7681; text-transform: uppercase; letter-spacing: 0.08em; }
-.metric-confirmed { color: #f85149; }
-.metric-uncertain { color: #d29922; }
-.metric-time { color: #58a6ff; }
+.metric-lbl { font-size: 9px; color: #3d4148; text-transform: uppercase; letter-spacing: 0.1em; }
+.mv-gold { color: #c5a03c; }
+.mv-red  { color: #b05050; }
+.mv-dim  { color: #5a5e66; font-size: 13px; padding-top: 4px; }
 
-.alert { border-radius: 6px; padding: 0.85rem 1rem; margin: 1rem 0; font-size: 0.875rem; font-weight: 500; border-left: 3px solid; }
-.alert-critical { background: #1a0a0a; border-color: #f85149; color: #ffa198; }
-.alert-warning   { background: #1a1200;  border-color: #d29922; color: #e3b341; }
-.alert-monitor   { background: #0d1a0d;  border-color: #238636; color: #3fb950; }
-.alert-uncertain { background: #0d1117;  border-color: #58a6ff; color: #79c0ff; }
-.alert-clear     { background: #0d1a0d;  border-color: #238636; color: #3fb950; }
+.log-panel { background: #13151a; border: 1px solid #2a2d33; border-radius: 5px; padding: 8px 12px; }
+.log-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 5px 0; border-bottom: 1px solid #1c1f24;
+    font-size: 10px; font-family: 'JetBrains Mono', monospace;
+}
+.log-row:last-child { border-bottom: none; }
+.log-id { color: #3d4148; min-width: 24px; }
+.log-conf { color: #5a5e66; margin-left: auto; }
+.tag {
+    border-radius: 3px; padding: 1px 6px;
+    font-size: 9px; font-weight: 600; border: 1px solid;
+}
+.tag-high { background: #1a1710; color: #c5a03c; border-color: #3d3010; }
+.tag-med  { background: #1a1208; color: #b05050; border-color: #3d1a10; }
+.tag-unc  { background: #1c1f24; color: #3d4148; border-color: #2a2d33; font-weight: 400; }
+
+.footer-strip {
+    font-size: 9px; font-family: 'JetBrains Mono', monospace;
+    color: #2a2d33; border-top: 1px solid #2a2d33;
+    padding: 7px 0; display: flex; gap: 16px; margin-top: 0.5rem;
+}
 
 .stButton > button {
-    background: #238636 !important; color: #ffffff !important;
-    border: 1px solid #2ea043 !important; border-radius: 6px !important;
-    font-family: 'Inter', sans-serif !important; font-weight: 600 !important;
-    font-size: 0.875rem !important; padding: 0.6rem 1.25rem !important;
-    width: 100%;
+    background: linear-gradient(135deg, #8a6d1a, #c5a03c) !important;
+    color: #0d0f12 !important; border: none !important;
+    border-radius: 6px !important; font-family: 'Inter', sans-serif !important;
+    font-weight: 700 !important; font-size: 12px !important;
+    padding: 0.65rem 1.25rem !important; letter-spacing: 0.04em !important;
+    width: 100% !important;
 }
-.stButton > button:hover { background: #2ea043 !important; }
+.stButton > button:hover { opacity: 0.9 !important; }
 
+.stFileUploader > div {
+    background: #13151a !important;
+    border: 1px dashed #2a2d33 !important;
+    border-radius: 6px !important;
+}
 .stTextInput input {
-    background: #0d1117 !important; border: 1px solid #30363d !important;
-    border-radius: 6px !important; color: #c9d1d9 !important;
-    font-family: 'JetBrains Mono', monospace !important; font-size: 0.85rem !important;
+    background: #13151a !important; border: 1px solid #2a2d33 !important;
+    border-radius: 5px !important; color: #d4d8df !important;
+    font-family: 'JetBrains Mono', monospace !important; font-size: 11px !important;
 }
+.stTextInput input:focus { border-color: #c5a03c !important; box-shadow: 0 0 0 1px #c5a03c22 !important; }
 .stTextInput label, .stSlider label, .stFileUploader label {
-    color: #8b949e !important; font-size: 0.75rem !important;
-    font-weight: 500 !important; text-transform: uppercase !important;
-    letter-spacing: 0.08em !important;
+    color: #3d4148 !important; font-size: 9px !important;
+    font-weight: 600 !important; text-transform: uppercase !important;
+    letter-spacing: 0.12em !important; font-family: 'JetBrains Mono', monospace !important;
 }
-hr { border-color: #21262d !important; margin: 1.25rem 0 !important; }
+.stSlider [data-baseweb="slider"] { padding: 0.25rem 0; }
+hr { border-color: #2a2d33 !important; margin: 1rem 0 !important; }
+.stSpinner > div { border-top-color: #c5a03c !important; }
 
-.conf-tag {
-    display: inline-block; font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem; padding: 2px 8px; border-radius: 3px; font-weight: 600;
+.empty-state {
+    background: #13151a; border: 1px dashed #2a2d33;
+    border-radius: 6px; text-align: center;
+    padding: 4rem 2rem;
 }
-.conf-high { background: #f851491a; color: #f85149; border: 1px solid #f8514933; }
-.conf-med  { background: #d299221a; color: #d29922; border: 1px solid #d2992233; }
-.conf-low  { background: #2386361a; color: #3fb950; border: 1px solid #23863633; }
-
-.footer-text {
-    font-size: 0.68rem; color: #484f58;
-    font-family: 'JetBrains Mono', monospace;
-    margin-top: 1.5rem; padding-top: 1rem;
-    border-top: 1px solid #21262d; line-height: 1.8;
-}
+.empty-icon { font-size: 2.5rem; opacity: 0.1; color: #c5a03c; margin-bottom: 1rem; }
+.empty-text { color: #3d4148; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2; }
 </style>
 """, unsafe_allow_html=True)
 
 
-# ── Model loading ────────────────────────────────────
 @st.cache_resource
 def load_models():
     os.makedirs("models", exist_ok=True)
     if not os.path.exists("models/v2.pt"):
-        hf_hub_download(repo_id="Tai-Rashad/concrete-crack-inspector", filename="v2.pt", local_dir="models")
+        with st.spinner("Loading Model V2..."):
+            hf_hub_download(repo_id="Tai-Rashad/concrete-crack-inspector", filename="v2.pt", local_dir="models")
     if not os.path.exists("models/v3.pt"):
-        hf_hub_download(repo_id="Tai-Rashad/concrete-crack-inspector", filename="v3.pt", local_dir="models")
+        with st.spinner("Loading Model V3..."):
+            hf_hub_download(repo_id="Tai-Rashad/concrete-crack-inspector", filename="v3.pt", local_dir="models")
     return YOLO("models/v2.pt"), YOLO("models/v3.pt")
 
 
@@ -138,8 +196,8 @@ def calculate_iou(box1, box2):
     x1 = max(box1[0], box2[0]); y1 = max(box1[1], box2[1])
     x2 = min(box1[2], box2[2]); y2 = min(box1[3], box2[3])
     inter = max(0, x2 - x1) * max(0, y2 - y1)
-    a1 = (box1[2]-box1[0]) * (box1[3]-box1[1])
-    a2 = (box2[2]-box2[0]) * (box2[3]-box2[1])
+    a1 = (box1[2]-box1[0])*(box1[3]-box1[1])
+    a2 = (box2[2]-box2[0])*(box2[3]-box2[1])
     union = a1 + a2 - inter
     return inter / union if union > 0 else 0
 
@@ -170,90 +228,77 @@ def ensemble_detect(model_v2, model_v3, image_path, conf=0.35):
 def draw_results(image_path, confirmed, uncertain):
     img = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
     fig, ax = plt.subplots(figsize=(12, 8))
-    fig.patch.set_facecolor("#0d1117")
-    ax.set_facecolor("#0d1117")
+    fig.patch.set_facecolor("#13151a")
+    ax.set_facecolor("#13151a")
     ax.imshow(img)
     for det in confirmed:
         box, c = det["box"], det["confidence"]
-        color = "#f85149" if c >= 0.8 else "#d29922" if c >= 0.6 else "#3fb950"
+        color = "#c5a03c" if c >= 0.6 else "#8a6d1a"
         risk  = "HIGH" if c >= 0.8 else "MED" if c >= 0.6 else "LOW"
         ax.add_patch(patches.Rectangle(
             (box[0], box[1]), box[2]-box[0], box[3]-box[1],
             linewidth=2, edgecolor=color, facecolor="none"))
         ax.text(box[0]+4, box[1]+16, f"CRACK · {risk} · {c:.0%}",
-                color="white", fontsize=8, fontweight="bold", fontfamily="monospace",
-                bbox=dict(boxstyle="round,pad=0.25", facecolor=color, alpha=0.92, linewidth=0))
+                color="#0d0f12", fontsize=8, fontweight="bold", fontfamily="monospace",
+                bbox=dict(boxstyle="round,pad=0.25", facecolor=color, alpha=0.95, linewidth=0))
     for det in uncertain:
         box, c = det["box"], det["confidence"]
         ax.add_patch(patches.Rectangle(
             (box[0], box[1]), box[2]-box[0], box[3]-box[1],
-            linewidth=1.2, edgecolor="#484f58", facecolor="none", linestyle="--"))
+            linewidth=1.2, edgecolor="#3d4148", facecolor="none", linestyle="--"))
         ax.text(box[0]+4, box[1]+16, f"UNCERTAIN · {c:.0%}",
-                color="#8b949e", fontsize=8, fontfamily="monospace",
-                bbox=dict(boxstyle="round,pad=0.25", facecolor="#161b22", alpha=0.9, linewidth=0))
+                color="#5a5e66", fontsize=8, fontfamily="monospace",
+                bbox=dict(boxstyle="round,pad=0.25", facecolor="#1c1f24", alpha=0.9, linewidth=0))
     ax.axis("off")
     plt.tight_layout(pad=0)
     return fig
 
 
-# ── TOP BANNER ───────────────────────────────────────
-st.markdown("""
-<div class="top-banner">
+# ── TOP BAR ─────────────────────────────────────────
+st.markdown('<div class="gold-line"></div>', unsafe_allow_html=True)
+st.markdown(f"""
+<div class="topbar">
     <img src="https://raw.githubusercontent.com/TaiyabRashad/bridge-crack-inspector/main/4dbde425-0407-4c72-9858-a4207df9e853.jpg"
-         style="height:38px; border-radius:4px; border:1px solid #30363d;">
+         style="height:34px;border-radius:4px;border:1px solid #2a2d33;flex-shrink:0"
+         onerror="this.style.display='none'">
     <div>
-        <div class="banner-title">Bridge Crack Inspector</div>
-        <div class="banner-subtitle">YOLOv11 Dual-Model Ensemble &nbsp;·&nbsp; DMRB CS 450 &nbsp;·&nbsp; Rashad Co.</div>
+        <div class="brand-name">Bridge Crack Inspector</div>
+        <div class="brand-sub">Rashad Co. &nbsp;·&nbsp; YOLOv11 Ensemble &nbsp;·&nbsp; DMRB CS 450</div>
     </div>
-    <div class="banner-badge">
-        <span class="status-dot"></span>V2 + V3 ONLINE
+    <div class="topbar-right">
+        <div class="status-pill"><span class="status-dot"></span>V2 + V3 ONLINE</div>
+        <div class="ver-badge">v3.0</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-
-# ── LAYOUT ───────────────────────────────────────────
+# ── LAYOUT ──────────────────────────────────────────
 col_left, col_right = st.columns([1, 2], gap="large")
 
 with col_left:
-    st.markdown('<div class="section-label">Inspection Input</div>', unsafe_allow_html=True)
-
-    uploaded = st.file_uploader("Upload image", type=["jpg", "jpeg", "png"],
-                                 help="Bridge or concrete surface photo")
-
-    location = st.text_input("Structure ID / Location", placeholder="e.g. M8-Bridge-01 / Glasgow")
-
-    conf_threshold = st.slider("Detection threshold", min_value=0.10, max_value=0.90,
-                                value=0.35, step=0.05,
-                                help="Lower = more sensitive. Raise to reduce false positives.")
-
-    run_btn = st.button("⬡  Run Inspection", use_container_width=True)
+    st.markdown('<span class="sec-label">Inspection Input</span>', unsafe_allow_html=True)
+    uploaded = st.file_uploader("Upload image", type=["jpg","jpeg","png"], label_visibility="collapsed")
+    location = st.text_input("Structure ID / Location", placeholder="e.g. M8-Bridge-04 / Glasgow")
+    conf_threshold = st.slider("Detection threshold", 0.10, 0.90, 0.35, 0.05)
+    run_btn = st.button("⬡  Run Inspection")
 
     st.markdown("---")
 
     st.markdown("""
-    <div class="section-label">System Status</div>
-    <div class="panel" style="font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:#8b949e; line-height:2.2;">
-        <span style="color:#3fb950">■</span>&nbsp; Model V2 &nbsp;&nbsp;YOLOv11n · 96.25% P<br>
-        <span style="color:#3fb950">■</span>&nbsp; Model V3 &nbsp;&nbsp;YOLOv11s · 97.87% P<br>
-        <span style="color:#58a6ff">■</span>&nbsp; Ensemble &nbsp;IoU cross-verify · 0.3 thr.<br>
-        <span style="color:#6e7681">■</span>&nbsp; Standard &nbsp;DMRB CS 450 / FHWA 0.3mm
+    <span class="sec-label">System Status</span>
+    <div class="sys-panel">
+        <div class="sys-row"><span class="dot dot-gold"></span>Model V2 &nbsp;&nbsp;YOLOv11n · 96.25% P</div>
+        <div class="sys-row"><span class="dot dot-gold"></span>Model V3 &nbsp;&nbsp;YOLOv11s · 97.87% P</div>
+        <div class="sys-row"><span class="dot dot-blue"></span>Ensemble &nbsp;IoU cross-verify · 0.3 thr.</div>
+        <div class="sys-row"><span class="dot dot-dim"></span>Standard &nbsp;DMRB CS 450 / FHWA 0.3mm</div>
     </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="footer-text">
-        Taiyab Rashad br>
-        University of Strathclyde · 2026<br>
-        For academic and research use only.<br>
+    <div style="margin-top:1rem;font-size:9px;font-family:'JetBrains Mono',monospace;color:#2a2d33;line-height:2">
+        For research and academic use only.<br>
         Results must be verified by a qualified structural engineer.
     </div>
     """, unsafe_allow_html=True)
 
-
 with col_right:
-    st.markdown('<div class="section-label">Analysis Output</div>', unsafe_allow_html=True)
-
     if uploaded and run_btn:
         img_path = f"/tmp/{uploaded.name}"
         with open(img_path, "wb") as f:
@@ -263,9 +308,9 @@ with col_right:
             model_v2, model_v3 = load_models()
             confirmed, uncertain = ensemble_detect(model_v2, model_v3, img_path, conf=conf_threshold)
 
-        # Status alert
+        # Alert
         if len(confirmed) == 0 and len(uncertain) == 0:
-            st.markdown('<div class="alert alert-clear">✓ &nbsp;CLEAR — No structural defects detected.</div>', unsafe_allow_html=True)
+            st.markdown('<div class="alert alert-clear">✓ &nbsp;CLEAR — No structural defects detected. Structure appears sound.</div>', unsafe_allow_html=True)
         elif len(confirmed) > 0:
             max_conf = max(d["confidence"] for d in confirmed)
             if max_conf >= 0.8:
@@ -282,22 +327,10 @@ with col_right:
         loc_display = location if location else "—"
         st.markdown(f"""
         <div class="metric-row">
-            <div class="metric-card">
-                <div class="metric-value metric-confirmed">{len(confirmed)}</div>
-                <div class="metric-label">Confirmed</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value metric-uncertain">{len(uncertain)}</div>
-                <div class="metric-label">Uncertain</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value metric-time" style="font-size:1.2rem;padding-top:0.3rem">{max_conf_val:.0%}</div>
-                <div class="metric-label">Peak Conf.</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value" style="color:#8b949e;font-size:0.85rem;padding-top:0.45rem">{datetime.now().strftime("%H:%M")}</div>
-                <div class="metric-label">Scan Time</div>
-            </div>
+            <div class="metric-card"><div class="metric-val mv-red">{len(confirmed)}</div><div class="metric-lbl">Confirmed</div></div>
+            <div class="metric-card"><div class="metric-val mv-gold">{len(uncertain)}</div><div class="metric-lbl">Uncertain</div></div>
+            <div class="metric-card"><div class="metric-val mv-gold">{max_conf_val:.0%}</div><div class="metric-lbl">Peak Conf.</div></div>
+            <div class="metric-card"><div class="metric-val mv-dim">{datetime.now().strftime("%H:%M")}</div><div class="metric-lbl">Scan Time</div></div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -308,36 +341,35 @@ with col_right:
 
         # Detection log
         if confirmed or uncertain:
-            st.markdown('<div class="section-label" style="margin-top:1rem">Detection Log</div>', unsafe_allow_html=True)
-            log_html = '<div class="panel">'
+            st.markdown('<span class="sec-label" style="margin-top:0.75rem;display:block">Detection Log</span>', unsafe_allow_html=True)
+            log_html = '<div class="log-panel">'
             for i, det in enumerate(confirmed, 1):
                 c = det["confidence"]
-                rc = "conf-high" if c >= 0.8 else "conf-med" if c >= 0.6 else "conf-low"
+                tc = "tag-high" if c >= 0.6 else "tag-med"
                 rl = "HIGH" if c >= 0.8 else "MED" if c >= 0.6 else "LOW"
-                log_html += f'<span style="font-family:JetBrains Mono,monospace;font-size:0.75rem;color:#8b949e">#{i:02d} CONFIRMED &nbsp;</span><span class="conf-tag {rc}">{rl} · {c:.1%}</span><br>'
+                box = det["box"]
+                log_html += f'<div class="log-row"><span class="log-id">#{i:02d}</span><span class="tag {tc}">{rl}</span><span style="color:#5a5e66">Confirmed crack · bbox [{int(box[0])},{int(box[1])},{int(box[2])},{int(box[3])}]</span><span class="log-conf">{c:.1%}</span></div>'
             for i, det in enumerate(uncertain, 1):
                 c = det["confidence"]
-                log_html += f'<span style="font-family:JetBrains Mono,monospace;font-size:0.75rem;color:#484f58">#{i:02d} UNCERTAIN &nbsp;</span><span class="conf-tag" style="background:#1f2937;color:#6e7681;border:1px solid #30363d">{c:.1%}</span><br>'
+                box = det["box"]
+                log_html += f'<div class="log-row"><span class="log-id">#{i:02d}</span><span class="tag tag-unc">UNCERTAIN</span><span style="color:#3d4148">Single-model detection · bbox [{int(box[0])},{int(box[1])},{int(box[2])},{int(box[3])}]</span><span class="log-conf" style="color:#3d4148">{c:.1%}</span></div>'
             log_html += '</div>'
             st.markdown(log_html, unsafe_allow_html=True)
 
-        # Report footer
+        # Footer
         st.markdown(f"""
-        <div class="footer-text">
-            Report generated: {datetime.now().strftime('%d %b %Y · %H:%M')} &nbsp;·&nbsp;
-            Structure: {loc_display} &nbsp;·&nbsp;
-            Threshold: {conf_threshold:.0%} &nbsp;·&nbsp;
-            Ensemble: V2 + V3
+        <div class="footer-strip">
+            <span>Report: {datetime.now().strftime('%d %b %Y · %H:%M')}</span>
+            <span>Structure: {loc_display}</span>
+            <span>Threshold: {conf_threshold:.0%}</span>
+            <span>Ensemble: V2 + V3</span>
         </div>
         """, unsafe_allow_html=True)
 
     elif not uploaded:
         st.markdown("""
-        <div class="panel" style="text-align:center; padding: 4rem 2rem; border-style:dashed; border-color:#21262d;">
-            <div style="font-size:2.5rem; margin-bottom:1rem; opacity:0.15;">⬡</div>
-            <div style="color:#484f58; font-family:'JetBrains Mono',monospace; font-size:0.78rem; line-height:2.2;">
-                Upload an inspection image to begin analysis<br>
-                Supports JPG · JPEG · PNG
-            </div>
+        <div class="empty-state">
+            <div class="empty-icon">⬡</div>
+            <div class="empty-text">Upload an inspection image to begin<br>JPG · JPEG · PNG</div>
         </div>
         """, unsafe_allow_html=True)
