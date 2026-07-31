@@ -261,20 +261,24 @@ def draw_results(image_path, confirmed, uncertain):
 
 
 # ── HEADER ──────────────────────────────────────────
-st.markdown("""
-<div id="active-users" style="display:inline-flex;align-items:center;gap:6px;background:#f0f8f0;border:1px solid #c0dac0;border-radius:20px;padding:4px 12px;font-size:11px;color:#3a6a3a;font-weight:500">
-    <span style="width:6px;height:6px;background:#3a6a3a;border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
-    <span id="user-count">--</span> engineers active on site
+import streamlit.components.v1 as components
+
+components.html("""
+<div id="active-users" style="display:inline-flex;align-items:center;gap:6px;background:#f0f8f0;border:1px solid #c0dac0;border-radius:20px;padding:4px 12px;font-size:11px;color:#3a6a3a;font-weight:500;font-family:Inter,sans-serif">
+    <span style="width:6px;height:6px;background:#3a6a3a;border-radius:50%;display:inline-block"></span>
+    <span id="user-count">--</span>&nbsp;engineers active on site
 </div>
 <script>
 function updateCount() {
-    const count = Math.floor(Math.random() * (52 - 5 + 1)) + 5;
+    var count = Math.floor(Math.random() * (52 - 5 + 1)) + 5;
     document.getElementById('user-count').textContent = count;
 }
 updateCount();
 setInterval(updateCount, 3000);
 </script>
-""", unsafe_allow_html=True)
+""", height=40)
+
+
 st.markdown("""
 <div style="display:flex;align-items:center;gap:1rem;padding:0 0 1.5rem 0;border-bottom:1px solid #e8e8e5;margin-bottom:1.5rem">
     <img src="https://raw.githubusercontent.com/TaiyabRashad/bridge-crack-inspector/main/4dbde425-0407-4c72-9858-a4207df9e853.jpg"
