@@ -165,14 +165,12 @@ html, body, [class*="css"] {
     font-weight: 600 !important; text-transform: uppercase !important;
     letter-spacing: 0.12em !important; font-family: 'JetBrains Mono', monospace !important;
 }
-.stSlider [data-baseweb="slider"] { padding: 0.25rem 0; }
 hr { border-color: #2a2d33 !important; margin: 1rem 0 !important; }
 .stSpinner > div { border-top-color: #c5a03c !important; }
 
 .empty-state {
     background: #13151a; border: 1px dashed #2a2d33;
-    border-radius: 6px; text-align: center;
-    padding: 4rem 2rem;
+    border-radius: 6px; text-align: center; padding: 4rem 2rem;
 }
 .empty-icon { font-size: 2.5rem; opacity: 0.1; color: #c5a03c; margin-bottom: 1rem; }
 .empty-text { color: #3d4148; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2; }
@@ -180,16 +178,17 @@ hr { border-color: #2a2d33 !important; margin: 1rem 0 !important; }
 """, unsafe_allow_html=True)
 
 
+# ── Model loading — V3 + V4 ensemble ────────────────
 @st.cache_resource
 def load_models():
     os.makedirs("models", exist_ok=True)
-    if not os.path.exists("models/v2.pt"):
-        with st.spinner("Loading Model V2..."):
-            hf_hub_download(repo_id="Tai-Rashad/concrete-crack-inspector", filename="v2.pt", local_dir="models")
     if not os.path.exists("models/v3.pt"):
         with st.spinner("Loading Model V3..."):
             hf_hub_download(repo_id="Tai-Rashad/concrete-crack-inspector", filename="v3.pt", local_dir="models")
-    return YOLO("models/v2.pt"), YOLO("models/v3.pt")
+    if not os.path.exists("models/v4.pt"):
+        with st.spinner("Loading Model V4..."):
+            hf_hub_download(repo_id="Tai-Rashad/concrete-crack-inspector", filename="v4.pt", local_dir="models")
+    return YOLO("models/v3.pt"), YOLO("models/v4.pt")
 
 
 def calculate_iou(box1, box2):
@@ -202,26 +201,26 @@ def calculate_iou(box1, box2):
     return inter / union if union > 0 else 0
 
 
-def ensemble_detect(model_v2, model_v3, image_path, conf=0.35):
-    r2 = model_v2.predict(source=image_path, imgsz=640, conf=conf, verbose=False)
+def ensemble_detect(model_v3, model_v4, image_path, conf=0.35):
     r3 = model_v3.predict(source=image_path, imgsz=640, conf=conf, verbose=False)
-    b2 = r2[0].boxes.xyxy.cpu().numpy() if len(r2[0].boxes) > 0 else []
+    r4 = model_v4.predict(source=image_path, imgsz=640, conf=conf, verbose=False)
     b3 = r3[0].boxes.xyxy.cpu().numpy() if len(r3[0].boxes) > 0 else []
-    c2 = r2[0].boxes.conf.cpu().numpy() if len(r2[0].boxes) > 0 else []
+    b4 = r4[0].boxes.xyxy.cpu().numpy() if len(r4[0].boxes) > 0 else []
     c3 = r3[0].boxes.conf.cpu().numpy() if len(r3[0].boxes) > 0 else []
+    c4 = r4[0].boxes.conf.cpu().numpy() if len(r4[0].boxes) > 0 else []
     confirmed, uncertain, matched = [], [], set()
-    for i, box2 in enumerate(b2):
+    for i, box3 in enumerate(b3):
         hit = False
-        for j, box3 in enumerate(b3):
+        for j, box4 in enumerate(b4):
             if j in matched: continue
-            if calculate_iou(box2, box3) > 0.3:
-                confirmed.append({"box": box2, "confidence": (c2[i]+c3[j])/2})
+            if calculate_iou(box3, box4) > 0.3:
+                confirmed.append({"box": box3, "confidence": (c3[i]+c4[j])/2})
                 matched.add(j); hit = True; break
         if not hit:
-            uncertain.append({"box": box2, "confidence": c2[i]})
-    for j, box3 in enumerate(b3):
+            uncertain.append({"box": box3, "confidence": c3[i]})
+    for j, box4 in enumerate(b4):
         if j not in matched:
-            uncertain.append({"box": box3, "confidence": c3[j]})
+            uncertain.append({"box": box4, "confidence": c4[j]})
     return confirmed, uncertain
 
 
@@ -266,8 +265,8 @@ st.markdown(f"""
         <div class="brand-sub">Rashad Co. &nbsp;·&nbsp; YOLOv11 Ensemble &nbsp;·&nbsp; DMRB CS 450</div>
     </div>
     <div class="topbar-right">
-        <div class="status-pill"><span class="status-dot"></span>V2 + V3 ONLINE</div>
-        <div class="ver-badge">v3.0</div>
+        <div class="status-pill"><span class="status-dot"></span>V3 + V4 ONLINE</div>
+        <div class="ver-badge">v4.0</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -287,8 +286,8 @@ with col_left:
     st.markdown("""
     <span class="sec-label">System Status</span>
     <div class="sys-panel">
-        <div class="sys-row"><span class="dot dot-gold"></span>Model V2 &nbsp;&nbsp;YOLOv11n · 96.25% P</div>
         <div class="sys-row"><span class="dot dot-gold"></span>Model V3 &nbsp;&nbsp;YOLOv11s · 97.87% P</div>
+        <div class="sys-row"><span class="dot dot-gold"></span>Model V4 &nbsp;&nbsp;YOLOv11s · 78.10% P · 13,498 img</div>
         <div class="sys-row"><span class="dot dot-blue"></span>Ensemble &nbsp;IoU cross-verify · 0.3 thr.</div>
         <div class="sys-row"><span class="dot dot-dim"></span>Standard &nbsp;DMRB CS 450 / FHWA 0.3mm</div>
     </div>
@@ -304,9 +303,9 @@ with col_right:
         with open(img_path, "wb") as f:
             f.write(uploaded.getbuffer())
 
-        with st.spinner("Running dual-model ensemble analysis..."):
-            model_v2, model_v3 = load_models()
-            confirmed, uncertain = ensemble_detect(model_v2, model_v3, img_path, conf=conf_threshold)
+        with st.spinner("Running V3 + V4 ensemble analysis..."):
+            model_v3, model_v4 = load_models()
+            confirmed, uncertain = ensemble_detect(model_v3, model_v4, img_path, conf=conf_threshold)
 
         # Alert
         if len(confirmed) == 0 and len(uncertain) == 0:
@@ -362,7 +361,7 @@ with col_right:
             <span>Report: {datetime.now().strftime('%d %b %Y · %H:%M')}</span>
             <span>Structure: {loc_display}</span>
             <span>Threshold: {conf_threshold:.0%}</span>
-            <span>Ensemble: V2 + V3</span>
+            <span>Ensemble: V3 + V4</span>
         </div>
         """, unsafe_allow_html=True)
 
