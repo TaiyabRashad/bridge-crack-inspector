@@ -289,9 +289,9 @@ col_left, col_right = st.columns([1, 2], gap="large")
 with col_left:
     st.markdown("**Model selection**")
 
-    use_v2 = st.checkbox("Model V2 — YOLOv11n · 96.25% precision", value=True)
-    use_v3 = st.checkbox("Model V3 — YOLOv11s · 97.87% precision", value=True)
-    use_v4 = st.checkbox("Model V4 — YOLOv11s · 78.10% · 13,498 images", value=True)
+    use_v2 = st.checkbox("Model 2 — 96.25% precision · 1,201 images", value=True)
+    use_v3 = st.checkbox("Model 3 — 97.87% precision · 1,478 images", value=True)
+    use_v4 = st.checkbox("Model 4 — 78.10% precision · 13,498 images", value=True)
 
     active_models = {}
     if use_v2: active_models["V2"] = model_v2
