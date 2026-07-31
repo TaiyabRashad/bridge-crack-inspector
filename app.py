@@ -28,26 +28,14 @@ html, body, [class*="css"] {
 #MainMenu, footer, header { visibility: hidden; }
 .block-container { padding: 0 !important; max-width: 100% !important; }
 
-.gold-line {
-    height: 2px;
-    background: linear-gradient(90deg, #c5a03c, #8a6d1a, transparent);
-    width: 100%;
-}
+.gold-line { height: 2px; background: linear-gradient(90deg, #c5a03c, #8a6d1a, transparent); width: 100%; }
 .topbar {
-    background: #16191e;
-    border-bottom: 1px solid #2a2d33;
-    padding: 0 1.75rem;
-    height: 54px;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    position: relative;
-    overflow: hidden;
+    background: #16191e; border-bottom: 1px solid #2a2d33;
+    padding: 0 1.75rem; height: 54px; display: flex;
+    align-items: center; gap: 1rem; position: relative; overflow: hidden;
 }
 .topbar::after {
-    content: '';
-    position: absolute;
-    inset: 0;
+    content: ''; position: absolute; inset: 0;
     background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(197,160,60,0.02) 3px,rgba(197,160,60,0.02) 4px);
     pointer-events: none;
 }
@@ -56,45 +44,19 @@ html, body, [class*="css"] {
 .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
 .status-pill {
     display: flex; align-items: center; gap: 6px;
-    background: #1a1c20; border: 1px solid #2a2d33;
-    border-radius: 4px; padding: 4px 10px;
-    font-size: 10px; font-family: 'JetBrains Mono', monospace; color: #c5a03c;
+    background: #1a1c20; border: 1px solid #2a2d33; border-radius: 4px;
+    padding: 4px 10px; font-size: 10px; font-family: 'JetBrains Mono', monospace; color: #c5a03c;
 }
-.status-dot {
-    width: 6px; height: 6px; background: #c5a03c;
-    border-radius: 50%; display: inline-block; margin-right: 2px;
-    animation: pulse 2s infinite;
-}
+.status-dot { width: 6px; height: 6px; background: #c5a03c; border-radius: 50%; display: inline-block; margin-right: 2px; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-.ver-badge {
-    font-size: 10px; font-family: 'JetBrains Mono', monospace;
-    color: #3d4148; border: 1px solid #2a2d33;
-    border-radius: 3px; padding: 3px 8px;
-}
-.sec-label {
-    font-size: 9px; font-weight: 600; letter-spacing: 0.14em;
-    text-transform: uppercase; color: #3d4148;
-    font-family: 'JetBrains Mono', monospace; margin-bottom: 6px; display: block;
-}
-.sys-panel {
-    background: #13151a; border: 1px solid #2a2d33;
-    border-radius: 5px; padding: 10px 12px;
-}
-.sys-row {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 10px; font-family: 'JetBrains Mono', monospace;
-    color: #5a5e66; padding: 3px 0; line-height: 1.4;
-}
+.ver-badge { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: #3d4148; border: 1px solid #2a2d33; border-radius: 3px; padding: 3px 8px; }
+.sec-label { font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #3d4148; font-family: 'JetBrains Mono', monospace; margin-bottom: 6px; display: block; }
+.sys-panel { background: #13151a; border: 1px solid #2a2d33; border-radius: 5px; padding: 10px 12px; }
+.sys-row { display: flex; align-items: center; gap: 8px; font-size: 10px; font-family: 'JetBrains Mono', monospace; color: #5a5e66; padding: 3px 0; line-height: 1.4; }
 .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
-.dot-gold { background: #c5a03c; }
-.dot-blue { background: #6e8bb5; }
-.dot-dim  { background: #3d4148; }
+.dot-gold { background: #c5a03c; } .dot-blue { background: #6e8bb5; } .dot-dim { background: #3d4148; }
 
-.alert {
-    border-radius: 5px; padding: 10px 14px;
-    margin: 0.75rem 0; font-size: 12px; font-weight: 500;
-    border-left: 3px solid; display: flex; align-items: center; gap: 8px;
-}
+.alert { border-radius: 5px; padding: 10px 14px; margin: 0.75rem 0; font-size: 12px; font-weight: 500; border-left: 3px solid; display: flex; align-items: center; gap: 8px; }
 .alert-critical { background: #1a1710; border-color: #c5a03c; color: #d4b060; }
 .alert-warning   { background: #1a1208; border-color: #b05050; color: #c07070; }
 .alert-monitor   { background: #111814; border-color: #5a7a5a; color: #7a9a7a; }
@@ -102,93 +64,54 @@ html, body, [class*="css"] {
 .alert-clear     { background: #111814; border-color: #5a7a5a; color: #7a9a7a; }
 
 .metric-row { display: flex; gap: 8px; margin: 0.75rem 0; }
-.metric-card {
-    flex: 1; background: #16191e; border: 1px solid #2a2d33;
-    border-radius: 6px; padding: 12px; text-align: center;
-}
-.metric-val {
-    font-size: 22px; font-weight: 600;
-    font-family: 'JetBrains Mono', monospace;
-    line-height: 1; margin-bottom: 4px;
-}
+.metric-card { flex: 1; background: #16191e; border: 1px solid #2a2d33; border-radius: 6px; padding: 12px; text-align: center; }
+.metric-val { font-size: 22px; font-weight: 600; font-family: 'JetBrains Mono', monospace; line-height: 1; margin-bottom: 4px; }
 .metric-lbl { font-size: 9px; color: #3d4148; text-transform: uppercase; letter-spacing: 0.1em; }
-.mv-gold { color: #c5a03c; }
-.mv-red  { color: #b05050; }
-.mv-dim  { color: #5a5e66; font-size: 13px; padding-top: 4px; }
+.mv-gold { color: #c5a03c; } .mv-red { color: #b05050; } .mv-dim { color: #5a5e66; font-size: 13px; padding-top: 4px; }
 
 .log-panel { background: #13151a; border: 1px solid #2a2d33; border-radius: 5px; padding: 8px 12px; }
-.log-row {
-    display: flex; align-items: center; gap: 8px;
-    padding: 5px 0; border-bottom: 1px solid #1c1f24;
-    font-size: 10px; font-family: 'JetBrains Mono', monospace;
-}
+.log-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid #1c1f24; font-size: 10px; font-family: 'JetBrains Mono', monospace; }
 .log-row:last-child { border-bottom: none; }
-.log-id { color: #3d4148; min-width: 24px; }
-.log-conf { color: #5a5e66; margin-left: auto; }
-.tag {
-    border-radius: 3px; padding: 1px 6px;
-    font-size: 9px; font-weight: 600; border: 1px solid;
-}
+.log-id { color: #3d4148; min-width: 24px; } .log-conf { color: #5a5e66; margin-left: auto; }
+.tag { border-radius: 3px; padding: 1px 6px; font-size: 9px; font-weight: 600; border: 1px solid; }
 .tag-high { background: #1a1710; color: #c5a03c; border-color: #3d3010; }
 .tag-med  { background: #1a1208; color: #b05050; border-color: #3d1a10; }
 .tag-unc  { background: #1c1f24; color: #3d4148; border-color: #2a2d33; font-weight: 400; }
 
-.footer-strip {
-    font-size: 9px; font-family: 'JetBrains Mono', monospace;
-    color: #2a2d33; border-top: 1px solid #2a2d33;
-    padding: 7px 0; display: flex; gap: 16px; margin-top: 0.5rem;
-}
+.vote-badge { font-size: 9px; font-family: 'JetBrains Mono', monospace; color: #5a5e66; background: #1c1f24; border: 1px solid #2a2d33; border-radius: 3px; padding: 1px 5px; }
+
+.footer-strip { font-size: 9px; font-family: 'JetBrains Mono', monospace; color: #2a2d33; border-top: 1px solid #2a2d33; padding: 7px 0; display: flex; gap: 16px; margin-top: 0.5rem; }
 
 .stButton > button {
     background: linear-gradient(135deg, #8a6d1a, #c5a03c) !important;
-    color: #0d0f12 !important; border: none !important;
-    border-radius: 6px !important; font-family: 'Inter', sans-serif !important;
-    font-weight: 700 !important; font-size: 12px !important;
-    padding: 0.65rem 1.25rem !important; letter-spacing: 0.04em !important;
-    width: 100% !important;
+    color: #0d0f12 !important; border: none !important; border-radius: 6px !important;
+    font-family: 'Inter', sans-serif !important; font-weight: 700 !important;
+    font-size: 12px !important; padding: 0.65rem 1.25rem !important;
+    letter-spacing: 0.04em !important; width: 100% !important;
 }
 .stButton > button:hover { opacity: 0.9 !important; }
-
-.stFileUploader > div {
-    background: #13151a !important;
-    border: 1px dashed #2a2d33 !important;
-    border-radius: 6px !important;
-}
-.stTextInput input {
-    background: #13151a !important; border: 1px solid #2a2d33 !important;
-    border-radius: 5px !important; color: #d4d8df !important;
-    font-family: 'JetBrains Mono', monospace !important; font-size: 11px !important;
-}
-.stTextInput input:focus { border-color: #c5a03c !important; box-shadow: 0 0 0 1px #c5a03c22 !important; }
-.stTextInput label, .stSlider label, .stFileUploader label {
-    color: #3d4148 !important; font-size: 9px !important;
-    font-weight: 600 !important; text-transform: uppercase !important;
-    letter-spacing: 0.12em !important; font-family: 'JetBrains Mono', monospace !important;
-}
+.stFileUploader > div { background: #13151a !important; border: 1px dashed #2a2d33 !important; border-radius: 6px !important; }
+.stTextInput input { background: #13151a !important; border: 1px solid #2a2d33 !important; border-radius: 5px !important; color: #d4d8df !important; font-family: 'JetBrains Mono', monospace !important; font-size: 11px !important; }
+.stTextInput input:focus { border-color: #c5a03c !important; }
+.stTextInput label, .stSlider label, .stFileUploader label { color: #3d4148 !important; font-size: 9px !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 0.12em !important; font-family: 'JetBrains Mono', monospace !important; }
 hr { border-color: #2a2d33 !important; margin: 1rem 0 !important; }
 .stSpinner > div { border-top-color: #c5a03c !important; }
-
-.empty-state {
-    background: #13151a; border: 1px dashed #2a2d33;
-    border-radius: 6px; text-align: center; padding: 4rem 2rem;
-}
+.empty-state { background: #13151a; border: 1px dashed #2a2d33; border-radius: 6px; text-align: center; padding: 4rem 2rem; }
 .empty-icon { font-size: 2.5rem; opacity: 0.1; color: #c5a03c; margin-bottom: 1rem; }
 .empty-text { color: #3d4148; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2; }
 </style>
 """, unsafe_allow_html=True)
 
 
-# ── Model loading — V3 + V4 ensemble ────────────────
+# ── Load all 3 models ────────────────────────────────
 @st.cache_resource
 def load_models():
     os.makedirs("models", exist_ok=True)
-    if not os.path.exists("models/v3.pt"):
-        with st.spinner("Loading Model V3..."):
-            hf_hub_download(repo_id="Tai-Rashad/concrete-crack-inspector", filename="v3.pt", local_dir="models")
-    if not os.path.exists("models/v4.pt"):
-        with st.spinner("Loading Model V4..."):
-            hf_hub_download(repo_id="Tai-Rashad/concrete-crack-inspector", filename="v4.pt", local_dir="models")
-    return YOLO("models/v3.pt"), YOLO("models/v4.pt")
+    for fname in ["v2.pt", "v3.pt", "v4.pt"]:
+        if not os.path.exists(f"models/{fname}"):
+            with st.spinner(f"Loading Model {fname}..."):
+                hf_hub_download(repo_id="Tai-Rashad/concrete-crack-inspector", filename=fname, local_dir="models")
+    return YOLO("models/v2.pt"), YOLO("models/v3.pt"), YOLO("models/v4.pt")
 
 
 def calculate_iou(box1, box2):
@@ -201,26 +124,68 @@ def calculate_iou(box1, box2):
     return inter / union if union > 0 else 0
 
 
-def ensemble_detect(model_v3, model_v4, image_path, conf=0.35):
+def triple_ensemble_detect(model_v2, model_v3, model_v4, image_path, conf=0.35):
+    # Run all 3 models
+    r2 = model_v2.predict(source=image_path, imgsz=640, conf=conf, verbose=False)
     r3 = model_v3.predict(source=image_path, imgsz=640, conf=conf, verbose=False)
     r4 = model_v4.predict(source=image_path, imgsz=640, conf=conf, verbose=False)
-    b3 = r3[0].boxes.xyxy.cpu().numpy() if len(r3[0].boxes) > 0 else []
-    b4 = r4[0].boxes.xyxy.cpu().numpy() if len(r4[0].boxes) > 0 else []
-    c3 = r3[0].boxes.conf.cpu().numpy() if len(r3[0].boxes) > 0 else []
-    c4 = r4[0].boxes.conf.cpu().numpy() if len(r4[0].boxes) > 0 else []
-    confirmed, uncertain, matched = [], [], set()
-    for i, box3 in enumerate(b3):
-        hit = False
-        for j, box4 in enumerate(b4):
-            if j in matched: continue
-            if calculate_iou(box3, box4) > 0.3:
-                confirmed.append({"box": box3, "confidence": (c3[i]+c4[j])/2})
-                matched.add(j); hit = True; break
-        if not hit:
-            uncertain.append({"box": box3, "confidence": c3[i]})
-    for j, box4 in enumerate(b4):
-        if j not in matched:
-            uncertain.append({"box": box4, "confidence": c4[j]})
+
+    def get_boxes(r):
+        if len(r[0].boxes) > 0:
+            return r[0].boxes.xyxy.cpu().numpy(), r[0].boxes.conf.cpu().numpy()
+        return [], []
+
+    b2, c2 = get_boxes(r2)
+    b3, c3 = get_boxes(r3)
+    b4, c4 = get_boxes(r4)
+
+    all_detections = []
+    for i, box in enumerate(b2): all_detections.append({"box": box, "conf": c2[i], "model": "V2"})
+    for i, box in enumerate(b3): all_detections.append({"box": box, "conf": c3[i], "model": "V3"})
+    for i, box in enumerate(b4): all_detections.append({"box": box, "conf": c4[i], "model": "V4"})
+
+    # Cluster detections by IoU overlap
+    merged = []
+    used = set()
+    for i, det_a in enumerate(all_detections):
+        if i in used:
+            continue
+        cluster = [det_a]
+        used.add(i)
+        for j, det_b in enumerate(all_detections):
+            if j in used:
+                continue
+            if calculate_iou(det_a["box"], det_b["box"]) > 0.3:
+                cluster.append(det_b)
+                used.add(j)
+        merged.append(cluster)
+
+    confirmed = []
+    uncertain = []
+    for cluster in merged:
+        models_agreeing = set(d["model"] for d in cluster)
+        avg_conf = sum(d["conf"] for d in cluster) / len(cluster)
+        best_box = cluster[0]["box"]
+        if len(models_agreeing) >= 2:
+            # 2 or more models agree — confirmed
+            confirmed.append({
+                "box": best_box,
+                "confidence": avg_conf,
+                "votes": len(models_agreeing),
+                "models": list(models_agreeing)
+            })
+        else:
+            # Only 1 model detected it — uncertain
+            uncertain.append({
+                "box": best_box,
+                "confidence": avg_conf,
+                "votes": 1,
+                "models": list(models_agreeing)
+            })
+
+    # Sort by confidence descending
+    confirmed.sort(key=lambda x: x["confidence"], reverse=True)
+    uncertain.sort(key=lambda x: x["confidence"], reverse=True)
     return confirmed, uncertain
 
 
@@ -232,12 +197,16 @@ def draw_results(image_path, confirmed, uncertain):
     ax.imshow(img)
     for det in confirmed:
         box, c = det["box"], det["confidence"]
+        votes = det["votes"]
         color = "#c5a03c" if c >= 0.6 else "#8a6d1a"
         risk  = "HIGH" if c >= 0.8 else "MED" if c >= 0.6 else "LOW"
+        # Thicker border if all 3 agree
+        lw = 2.5 if votes == 3 else 2.0
         ax.add_patch(patches.Rectangle(
             (box[0], box[1]), box[2]-box[0], box[3]-box[1],
-            linewidth=2, edgecolor=color, facecolor="none"))
-        ax.text(box[0]+4, box[1]+16, f"CRACK · {risk} · {c:.0%}",
+            linewidth=lw, edgecolor=color, facecolor="none"))
+        label = f"CRACK · {risk} · {c:.0%}" + (" · ✓✓✓" if votes == 3 else "")
+        ax.text(box[0]+4, box[1]+16, label,
                 color="#0d0f12", fontsize=8, fontweight="bold", fontfamily="monospace",
                 bbox=dict(boxstyle="round,pad=0.25", facecolor=color, alpha=0.95, linewidth=0))
     for det in uncertain:
@@ -255,18 +224,18 @@ def draw_results(image_path, confirmed, uncertain):
 
 # ── TOP BAR ─────────────────────────────────────────
 st.markdown('<div class="gold-line"></div>', unsafe_allow_html=True)
-st.markdown(f"""
+st.markdown("""
 <div class="topbar">
     <img src="https://raw.githubusercontent.com/TaiyabRashad/bridge-crack-inspector/main/4dbde425-0407-4c72-9858-a4207df9e853.jpg"
          style="height:34px;border-radius:4px;border:1px solid #2a2d33;flex-shrink:0"
          onerror="this.style.display='none'">
     <div>
         <div class="brand-name">Bridge Crack Inspector</div>
-        <div class="brand-sub">Rashad Co. &nbsp;·&nbsp; YOLOv11 Ensemble &nbsp;·&nbsp; DMRB CS 450</div>
+        <div class="brand-sub">Rashad Co. &nbsp;·&nbsp; YOLOv11 Triple Ensemble &nbsp;·&nbsp; DMRB CS 450</div>
     </div>
     <div class="topbar-right">
-        <div class="status-pill"><span class="status-dot"></span>V3 + V4 ONLINE</div>
-        <div class="ver-badge">v4.0</div>
+        <div class="status-pill"><span class="status-dot"></span>V2 + V3 + V4 ONLINE</div>
+        <div class="ver-badge">v4.1</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -286,9 +255,10 @@ with col_left:
     st.markdown("""
     <span class="sec-label">System Status</span>
     <div class="sys-panel">
+        <div class="sys-row"><span class="dot dot-gold"></span>Model V2 &nbsp;&nbsp;YOLOv11n · 96.25% P</div>
         <div class="sys-row"><span class="dot dot-gold"></span>Model V3 &nbsp;&nbsp;YOLOv11s · 97.87% P</div>
         <div class="sys-row"><span class="dot dot-gold"></span>Model V4 &nbsp;&nbsp;YOLOv11s · 78.10% P · 13,498 img</div>
-        <div class="sys-row"><span class="dot dot-blue"></span>Ensemble &nbsp;IoU cross-verify · 0.3 thr.</div>
+        <div class="sys-row"><span class="dot dot-blue"></span>Ensemble &nbsp;2/3 vote · IoU 0.3 threshold</div>
         <div class="sys-row"><span class="dot dot-dim"></span>Standard &nbsp;DMRB CS 450 / FHWA 0.3mm</div>
     </div>
     <div style="margin-top:1rem;font-size:9px;font-family:'JetBrains Mono',monospace;color:#2a2d33;line-height:2">
@@ -303,9 +273,11 @@ with col_right:
         with open(img_path, "wb") as f:
             f.write(uploaded.getbuffer())
 
-        with st.spinner("Running V3 + V4 ensemble analysis..."):
-            model_v3, model_v4 = load_models()
-            confirmed, uncertain = ensemble_detect(model_v3, model_v4, img_path, conf=conf_threshold)
+        with st.spinner("Running triple-model ensemble analysis..."):
+            model_v2, model_v3, model_v4 = load_models()
+            confirmed, uncertain = triple_ensemble_detect(
+                model_v2, model_v3, model_v4, img_path, conf=conf_threshold
+            )
 
         # Alert
         if len(confirmed) == 0 and len(uncertain) == 0:
@@ -323,11 +295,12 @@ with col_right:
 
         # Metrics
         max_conf_val = max((d["confidence"] for d in confirmed), default=0)
+        triple_votes = sum(1 for d in confirmed if d["votes"] == 3)
         loc_display = location if location else "—"
         st.markdown(f"""
         <div class="metric-row">
             <div class="metric-card"><div class="metric-val mv-red">{len(confirmed)}</div><div class="metric-lbl">Confirmed</div></div>
-            <div class="metric-card"><div class="metric-val mv-gold">{len(uncertain)}</div><div class="metric-lbl">Uncertain</div></div>
+            <div class="metric-card"><div class="metric-val mv-gold">{triple_votes}</div><div class="metric-lbl">All 3 Agree</div></div>
             <div class="metric-card"><div class="metric-val mv-gold">{max_conf_val:.0%}</div><div class="metric-lbl">Peak Conf.</div></div>
             <div class="metric-card"><div class="metric-val mv-dim">{datetime.now().strftime("%H:%M")}</div><div class="metric-lbl">Scan Time</div></div>
         </div>
@@ -347,11 +320,13 @@ with col_right:
                 tc = "tag-high" if c >= 0.6 else "tag-med"
                 rl = "HIGH" if c >= 0.8 else "MED" if c >= 0.6 else "LOW"
                 box = det["box"]
-                log_html += f'<div class="log-row"><span class="log-id">#{i:02d}</span><span class="tag {tc}">{rl}</span><span style="color:#5a5e66">Confirmed crack · bbox [{int(box[0])},{int(box[1])},{int(box[2])},{int(box[3])}]</span><span class="log-conf">{c:.1%}</span></div>'
+                models_str = "+".join(sorted(det["models"]))
+                log_html += f'<div class="log-row"><span class="log-id">#{i:02d}</span><span class="tag {tc}">{rl}</span><span style="color:#5a5e66">Confirmed · bbox [{int(box[0])},{int(box[1])},{int(box[2])},{int(box[3])}]</span><span class="vote-badge">{models_str}</span><span class="log-conf">{c:.1%}</span></div>'
             for i, det in enumerate(uncertain, 1):
                 c = det["confidence"]
                 box = det["box"]
-                log_html += f'<div class="log-row"><span class="log-id">#{i:02d}</span><span class="tag tag-unc">UNCERTAIN</span><span style="color:#3d4148">Single-model detection · bbox [{int(box[0])},{int(box[1])},{int(box[2])},{int(box[3])}]</span><span class="log-conf" style="color:#3d4148">{c:.1%}</span></div>'
+                models_str = det["models"][0]
+                log_html += f'<div class="log-row"><span class="log-id">#{i:02d}</span><span class="tag tag-unc">UNCERTAIN</span><span style="color:#3d4148">Single-model · bbox [{int(box[0])},{int(box[1])},{int(box[2])},{int(box[3])}]</span><span class="vote-badge" style="color:#2a2d33">{models_str}</span><span class="log-conf" style="color:#3d4148">{c:.1%}</span></div>'
             log_html += '</div>'
             st.markdown(log_html, unsafe_allow_html=True)
 
@@ -361,7 +336,7 @@ with col_right:
             <span>Report: {datetime.now().strftime('%d %b %Y · %H:%M')}</span>
             <span>Structure: {loc_display}</span>
             <span>Threshold: {conf_threshold:.0%}</span>
-            <span>Ensemble: V3 + V4</span>
+            <span>Ensemble: V2 + V3 + V4 · 2/3 vote</span>
         </div>
         """, unsafe_allow_html=True)
 
