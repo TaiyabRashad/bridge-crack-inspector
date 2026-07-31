@@ -266,7 +266,7 @@ import streamlit.components.v1 as components
 components.html("""
 <div id="active-users" style="display:inline-flex;align-items:center;gap:6px;background:#f0f8f0;border:1px solid #c0dac0;border-radius:20px;padding:4px 12px;font-size:11px;color:#3a6a3a;font-weight:500;font-family:Inter,sans-serif">
     <span style="width:6px;height:6px;background:#3a6a3a;border-radius:50%;display:inline-block"></span>
-    <span id="user-count">--</span>&nbsp;engineers active on site
+    <span id="user-count">--</span>&nbsp;users active on this site
 </div>
 <script>
 function updateCount() {
