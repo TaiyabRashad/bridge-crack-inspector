@@ -242,18 +242,19 @@ def draw_results(image_path, confirmed, uncertain):
         lw = 2.5 if det["votes"] >= 3 else 2.0
         ax.add_patch(patches.Rectangle(
             (box[0], box[1]), box[2]-box[0], box[3]-box[1],
-            linewidth=lw, edgecolor=color, facecolor=color+"22"))
+            linewidth=lw, edgecolor=color, facecolor=color+"33"))
         ax.text(box[0]+4, box[1]+16, f"CRACK · {risk} · {c:.0%}",
-                color="#fff", fontsize=8, fontweight="bold", fontfamily="monospace",
+                color="#1a1a1a", fontsize=8, fontweight="bold", fontfamily="monospace",
                 bbox=dict(boxstyle="round,pad=0.25", facecolor=color, alpha=1, linewidth=0))
     for det in uncertain:
         box, c = det["box"], det["confidence"]
+        # bright cyan dashed box — visible on any background
         ax.add_patch(patches.Rectangle(
             (box[0], box[1]), box[2]-box[0], box[3]-box[1],
-            linewidth=1.2, edgecolor="#b0b0ad", facecolor="none", linestyle="--"))
+            linewidth=2, edgecolor="#00bcd4", facecolor="#00bcd422", linestyle="--"))
         ax.text(box[0]+4, box[1]+16, f"UNCERTAIN · {c:.0%}",
-                color="#6a6a67", fontsize=8, fontfamily="monospace",
-                bbox=dict(boxstyle="round,pad=0.25", facecolor="#f0f0ee", alpha=0.95, linewidth=0))
+                color="#ffffff", fontsize=8, fontfamily="monospace",
+                bbox=dict(boxstyle="round,pad=0.25", facecolor="#0097a7", alpha=0.95, linewidth=0))
     ax.axis("off")
     plt.tight_layout(pad=0)
     return fig
@@ -379,30 +380,17 @@ with col_right:
                 bdr = "#e8d89a" if c >= 0.6 else "#f0c0c0"
                 box = det["box"]
                 mv  = "+".join(det["models"])
-                log_html += f"""
-                <div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid #f5f5f3;font-size:12px">
-                    <span style="color:#b0b0ad;min-width:28px">#{i:02d}</span>
-                    <span style="background:{bg};color:{col};border:1px solid {bdr};border-radius:4px;padding:2px 8px;font-size:10px;font-weight:600">{rl}</span>
-                    <span style="color:#6a6a67;flex:1">Confirmed crack · [{int(box[0])},{int(box[1])},{int(box[2])},{int(box[3])}]</span>
-                    <span style="background:#f5f5f3;border:1px solid #e8e8e5;border-radius:3px;padding:1px 6px;font-size:10px;color:#9a9a97">{mv}</span>
-                    <span style="color:#9a9a97;font-weight:500">{c:.1%}</span>
-                </div>"""
+                log_html += f'<div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid #f5f5f3;font-size:12px"><span style="color:#b0b0ad;min-width:28px">#{i:02d}</span><span style="background:{bg};color:{col};border:1px solid {bdr};border-radius:4px;padding:2px 8px;font-size:10px;font-weight:600">{rl}</span><span style="color:#6a6a67;flex:1">Confirmed crack &nbsp;·&nbsp; [{int(box[0])},{int(box[1])},{int(box[2])},{int(box[3])}]</span><span style="background:#f5f5f3;border:1px solid #e8e8e5;border-radius:3px;padding:1px 6px;font-size:10px;color:#9a9a97">{mv}</span><span style="color:#9a9a97;font-weight:500;min-width:36px;text-align:right">{c:.1%}</span></div>'
 
             for i, det in enumerate(uncertain, 1):
                 c = det["confidence"]
                 box = det["box"]
                 mv = det["models"][0] if det["models"] else "?"
-                log_html += f"""
-                <div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid #f5f5f3;font-size:12px">
-                    <span style="color:#b0b0ad;min-width:28px">#{i:02d}</span>
-                    <span style="background:#f5f5f3;color:#9a9a97;border:1px solid #e8e8e5;border-radius:4px;padding:2px 8px;font-size:10px">UNCERTAIN</span>
-                    <span style="color:#b0b0ad;flex:1">Single model · [{int(box[0])},{int(box[1])},{int(box[2])},{int(box[3])}]</span>
-                    <span style="background:#f5f5f3;border:1px solid #e8e8e5;border-radius:3px;padding:1px 6px;font-size:10px;color:#b0b0ad">{mv}</span>
-                    <span style="color:#b0b0ad;font-weight:500">{c:.1%}</span>
-                </div>"""
+                log_html += f'<div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid #f5f5f3;font-size:12px"><span style="color:#b0b0ad;min-width:28px">#{i:02d}</span><span style="background:#f5f5f3;color:#9a9a97;border:1px solid #e8e8e5;border-radius:4px;padding:2px 8px;font-size:10px">UNCERTAIN</span><span style="color:#b0b0ad;flex:1">Single model &nbsp;·&nbsp; [{int(box[0])},{int(box[1])},{int(box[2])},{int(box[3])}]</span><span style="background:#f5f5f3;border:1px solid #e8e8e5;border-radius:3px;padding:1px 6px;font-size:10px;color:#b0b0ad">{mv}</span><span style="color:#b0b0ad;font-weight:500;min-width:36px;text-align:right">{c:.1%}</span></div>'
 
             log_html += "</div>"
             st.markdown(log_html, unsafe_allow_html=True)
+
 
         # Footer
         st.caption(f"Report: {datetime.now().strftime('%d %b %Y · %H:%M')} · Structure: {loc_display} · Threshold: {conf_threshold:.0%} · Active: {'+'.join(active_models.keys())}")
