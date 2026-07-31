@@ -270,7 +270,7 @@ components.html("""
 </div>
 <script>
 function updateCount() {
-    var count = Math.floor(Math.random() * (52 - 5 + 1)) + 5;
+    var count = Math.floor(Math.random() * (23- 5 + 1)) + 5;
     document.getElementById('user-count').textContent = count;
 }
 updateCount();
