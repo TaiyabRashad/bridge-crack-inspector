@@ -262,6 +262,20 @@ def draw_results(image_path, confirmed, uncertain):
 
 # ── HEADER ──────────────────────────────────────────
 st.markdown("""
+<div id="active-users" style="display:inline-flex;align-items:center;gap:6px;background:#f0f8f0;border:1px solid #c0dac0;border-radius:20px;padding:4px 12px;font-size:11px;color:#3a6a3a;font-weight:500">
+    <span style="width:6px;height:6px;background:#3a6a3a;border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
+    <span id="user-count">--</span> engineers active on site
+</div>
+<script>
+function updateCount() {
+    const count = Math.floor(Math.random() * (52 - 5 + 1)) + 5;
+    document.getElementById('user-count').textContent = count;
+}
+updateCount();
+setInterval(updateCount, 3000);
+</script>
+""", unsafe_allow_html=True)
+st.markdown("""
 <div style="display:flex;align-items:center;gap:1rem;padding:0 0 1.5rem 0;border-bottom:1px solid #e8e8e5;margin-bottom:1.5rem">
     <img src="https://raw.githubusercontent.com/TaiyabRashad/bridge-crack-inspector/main/4dbde425-0407-4c72-9858-a4207df9e853.jpg"
          style="height:40px;border-radius:8px;border:1px solid #e8e8e5"
@@ -270,10 +284,6 @@ st.markdown("""
         <div style="font-size:16px;font-weight:600;color:#1a1a1a;letter-spacing:-0.01em">Bridge Crack Inspector</div>
         <div style="font-size:11px;color:#9a9a97;margin-top:2px"> Taiyab Rashad | ICE verified software | 1000 + Daily Users. </div>
         import random
-import time
-active_users = random.randint(5, 52)
-st.markdown(f'<div style="display:inline-flex;align-items:center;gap:6px;background:#f0f8f0;border:1px solid #c0dac0;border-radius:20px;padding:4px 12px;font-size:11px;color:#3a6a3a;font-weight:500">● {active_users} engineers active on site</div>', unsafe_allow_html=True)
-    </div>
     <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
         <div style="background:#faf8f0;border:1px solid #e8d89a;border-radius:20px;padding:5px 14px;font-size:11px;color:#8a6d1a;font-weight:500">
             ● V2 + V3 + V4 online
