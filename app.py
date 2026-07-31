@@ -22,7 +22,9 @@ st.markdown("""
 html, body, [class*="css"] { font-family: 'Inter', sans-serif; background-color: #1c1f24; color: #d4d8df; }
 .stApp { background-color: #1c1f24; }
 #MainMenu, footer, header { visibility: hidden; }
-.block-container { padding: 0 !important; max-width: 100% !important; }
+.block-container { padding: 0 0 2rem 0 !important; max-width: 100% !important; }
+
+.main-content { padding: 1.5rem 2rem; }
 
 .gold-line { height: 2px; background: linear-gradient(90deg, #c5a03c, #8a6d1a, transparent); width: 100%; }
 .topbar {
@@ -106,6 +108,11 @@ hr { border-color: #2a2d33 !important; margin: 1rem 0 !important; }
 .empty-state { background: #13151a; border: 1px dashed #2a2d33; border-radius: 6px; text-align: center; padding: 4rem 2rem; }
 .empty-icon { font-size: 2.5rem; opacity: 0.1; color: #c5a03c; margin-bottom: 1rem; }
 .empty-text { color: #3d4148; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2; }
+
+section[data-testid="stSidebar"] { padding: 0 !important; }
+div[data-testid="stVerticalBlock"] { gap: 0.75rem; }
+div[data-testid="column"]:first-child { padding: 1.5rem 1rem 1.5rem 2rem !important; }
+div[data-testid="column"]:last-child  { padding: 1.5rem 2rem 1.5rem 1rem !important; }
 </style>
 """, unsafe_allow_html=True)
 
