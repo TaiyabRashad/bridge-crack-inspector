@@ -243,7 +243,7 @@ with col_left:
 
     st.markdown("""
     <div class="footer-text">
-        Taiyab Rashad · BEng Civil Engineering<br>
+        Taiyab Rashad br>
         University of Strathclyde · 2026<br>
         For academic and research use only.<br>
         Results must be verified by a qualified structural engineer.
