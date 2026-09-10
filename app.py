@@ -286,7 +286,7 @@ st.markdown("""
          onerror="this.style.display='none'">
     <div>
         <div style="font-size:16px;font-weight:600;color:#1a1a1a;letter-spacing:-0.01em">Bridge Crack Inspector</div>
-        <div style="font-size:11px;color:#9a9a97;margin-top:2px"> Taiyab Rashad | ICE verified software | 1000 + Daily Users. </div>
+        <div style="font-size:11px;color:#9a9a97;margin-top:2px"> This site is owned by Taiyab Rashad. </div>
         import random
     <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
         <div style="background:#faf8f0;border:1px solid #e8d89a;border-radius:20px;padding:5px 14px;font-size:11px;color:#8a6d1a;font-weight:500">
